@@ -26,17 +26,20 @@ namespace SpeachRecognition
         {
             InitializeComponent();
 
+            this.ShowInTaskbar = false;
+            this.WindowState = FormWindowState.Minimized;
+
             this._recognizer = new SpeechRecognitionEngine();
 
             this._assistantName = "Computer";
             this._dictionaryOfActions = new List<VoiceGrammarActionXref>
             {
-                new VoiceGrammarActionXref(() => this.TurnOfPc(), "Shut down the pc", "Shut down pc", "Turn off the pc", "Turn off pc")
-                {
-                    YesConfirmation = new VoiceGrammarActionXref(() => this.Speak("Turning off pc"), "Yes", "Yes, please"),
-                    NoConfirmation = new VoiceGrammarActionXref(() => this.Speak("Okey"), "No", "No, thank you"),
-                    StringFormatMessageOnMatch = "Do you want me to {0}"
-                },
+                //new VoiceGrammarActionXref(() => this.TurnOfPc(), "Shut down the pc", "Shut down pc", "Turn off the pc", "Turn off pc")
+                //{
+                //    YesConfirmation = new VoiceGrammarActionXref(() => this.Speak("Turning off pc"), "Yes", "Yes, please"),
+                //    NoConfirmation = new VoiceGrammarActionXref(() => this.Speak("Okey"), "No", "No, thank you"),
+                //    StringFormatMessageOnMatch = "Do you want me to {0}"
+                //},
                 new VoiceGrammarActionXref(() => this.LockScreen(), "Lock the screen", "Lock screen")
                 {
                     YesConfirmation = new VoiceGrammarActionXref(() => this.Speak("Locking the screen"), "Yes", "Yes, please"),
@@ -167,6 +170,16 @@ namespace SpeachRecognition
             synthesizer.Rate = 1;
             synthesizer.Speak(builder);
             synthesizer.Dispose();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            this.notifyIcon1.Visible = true;
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }
